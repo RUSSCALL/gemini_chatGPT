@@ -40,9 +40,6 @@ class PromptController extends Controller
         #query gemini and store its response in the database
         $promptGemini->prompt($request['user_prompt'] , $prompt->id);
 
-        #fetch the all the prompt and responses joined to each other where their prompt ids match from teh databases based on teh session chat_id and sort them by created_at
-        $prompts = Prompt::where('chat_id', session('chat_id'))->with('response')->orderBy('created_at', 'asc')->get();
-
-        return view('welcome' , ['chats' => $prompts])->with('success', 'Prompt created successfully.');
+        return redirect('/');
     }
 }
