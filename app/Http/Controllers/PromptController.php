@@ -42,8 +42,6 @@ class PromptController extends Controller
         #create Job for creating chat title
         $request->session()->put('user_prompt' , $request['user_prompt']);
 
-        // (new CreateChatTitle($promptGemini))->handle();
-
         CreateChatTitle::dispatch();
 
         #query gemini and store its response in the database
