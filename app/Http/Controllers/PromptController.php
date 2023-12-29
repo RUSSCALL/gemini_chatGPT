@@ -7,6 +7,8 @@ use App\Models\Prompt;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Actions\promptGemini;
+use App\Jobs\CreateChatTitle;
+use Google\Service\DriveActivity\Create;
 
 class PromptController extends Controller
 {
@@ -36,6 +38,13 @@ class PromptController extends Controller
             'user_id' => 1,
             'content' => $request['user_prompt']
         ]);
+
+        #create Job for creating chat title
+        $request->session()->put('user_prompt' , $request['user_prompt']);
+
+        // (new CreateChatTitle($promptGemini))->handle();
+
+        CreateChatTitle::dispatch();
 
         #query gemini and store its response in the database
         $promptGemini->prompt($request['user_prompt'] , $prompt->id);
